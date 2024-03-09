@@ -16,9 +16,9 @@ CREATE TABLE tutors (
     name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
-    qualification VARCHAR(100),
-    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    qualification VARCHAR(100) NOT NULL,
+    create_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create table for subjects
@@ -61,8 +61,8 @@ CREATE TABLE enrollments (
     subject_id UUID,
     academic_year INTEGER NOT NULL,
     semester VARCHAR(10) NOT NULL,
-    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    create_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_student
         FOREIGN KEY (student_id)
         REFERENCES students(id),
@@ -75,8 +75,8 @@ CREATE TABLE enrollments (
 CREATE TABLE departments (
     id UUID PRIMARY KEY,
     department_name VARCHAR(50) NOT NULL,
-    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    create_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create table for courses
@@ -84,8 +84,8 @@ CREATE TABLE courses (
     id UUID PRIMARY KEY,
     course_name VARCHAR(100) NOT NULL,
     department_id UUID ,
-    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    create_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_department
         FOREIGN KEY (department_id)
         REFERENCES departments(id)

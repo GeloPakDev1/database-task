@@ -1,2 +1,3 @@
 # database-task
-![ERD](https://github.com/GeloPakDev1/database-task/assets/145379929/61babef0-25f8-4bc1-aa5d-2faa75935d4b)
+![image](https://github.com/GeloPakDev1/database-task/assets/145379929/3482e056-54af-4d4d-b9df-2805892351a7)
+

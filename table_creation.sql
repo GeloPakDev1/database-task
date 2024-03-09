@@ -31,3 +31,44 @@ CREATE TABLE exam_results (
     create_datetime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_datetime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Create table for enrollments
+CREATE TYPE SEMESTER_ENUM AS ENUM ('Spring', 'Summer', 'Fall', 'Winter');
+
+CREATE TABLE enrollments (
+    id UUID PRIMARY KEY,
+    student_id UUID REFERENCES students(id),
+    subject_id UUID REFERENCES subjects(id),
+    academic_year INTEGER NOT NULL,
+    semester VARCHAR(10) NOT NULL,
+    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create table for tutors
+CREATE TABLE tutors (
+    id UUID PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    qualification VARCHAR(100),
+    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create table for departments
+CREATE TABLE departments (
+    id UUID PRIMARY KEY,
+    department_name VARCHAR(50) NOT NULL,
+    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create table for courses
+CREATE TABLE courses (
+    id UUID PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    department_id UUID REFERENCES departments(id),
+    create_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

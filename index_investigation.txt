@@ -1,0 +1,58 @@
+INDEX PERFORAMNCE INVESTIGATION:
+
+Insertion of the data before creating the index on the columns in the tables:
+
+Inserting of 100,000 rows in students_indexing took: 3554 milliseconds
+Inserting of 1,000 rows in tutors_indexing took: 491 milliseconds
+Inserting of 1,000 rows in subjects_indexing took: 768 milliseconds
+Inserting of 1,000,000 rows in exam_marks_indexing took: 44968 milliseconds
+
+
+Insertion of the data after creating the index on the columns in the tables:
+
+Inserting of 100,000 rows in students_indexing took: 4963 milliseconds
+Inserting of 1,000 rows in tutors_indexing took: 456 milliseconds
+Inserting of 1,000 rows in subjects_indexing took: 740 milliseconds
+Inserting of 1,000,000 rows in exam_marks_indexing took: 38841 milliseconds
+
+
+Test Queries:
+EXPLAIN ANALYZE SELECT * FROM students_indexing WHERE name = 'oiCxNaKTTgVA'
+ Index Scan using students_name on students_indexing  (cost=0.42..8.44 rows=1 width=86) (actual time=0.131..0.132 rows=1 loops=1)
+ Index Cond: ((name)::text = 'oiCxNaKTTgVA'::text)
+ Planning Time: 0.162 ms
+ Execution Time: 0.151 ms
+EXPLAIN ANALYZE SELECT * FROM students_indexing WHERE surname LIKE 'vUcPgeTFyko%'
+ Seq Scan on students_indexing  (cost=0.00..2737.00 rows=10 width=86) (actual time=8.687..9.480 rows=1 loops=1)
+ Filter: ((surname)::text ~~ 'vUcPgeTFyko%'::text)
+ Planning Time: 0.136 ms
+ Execution Time: 9.495 ms
+EXPLAIN ANALYZE SELECT * FROM students_indexing WHERE phone_number = '__3456789%'
+ Index Scan using students_phone_number on students_indexing  (cost=0.28..8.30 rows=1 width=86) (actual time=65.720..65.721 rows=0 loops=1)
+ Planning Time: 0.162 ms
+ Execution Time: 65.741 ms
+EXPLAIN ANALYZE SELECT * FROM tutors_indexing WHERE name = 'NvMGFqfr'
+ Index Scan using tutors_name on tutors_indexing  (cost=0.28..8.29 rows=1 width=75) (actual time=0.068..0.069 rows=1 loops=1)
+ Planning Time: 0.614 ms
+ Execution Time: 0.081 ms
+EXPLAIN ANALYZE SELECT * FROM tutors_indexing WHERE phone_number = 'Surname98711'
+ Index Scan using tutors_phone_number on tutors_indexing  (cost=0.14..8.16 rows=1 width=75) (actual time=0.101..0.102 rows=0 loops=1)
+ Planning Time: 0.127 ms
+ Execution Time: 0.115 ms
+EXPLAIN ANALYZE SELECT s.id AS student_id, s.name AS student_name, s.surname, e.mark
+FROM students_indexing s
+JOIN exam_results_indexing e ON s.id = e.student_id
+WHERE s.surname LIKE 'pUUlbGxeZkax';
+ Nested Loop  (cost=4.09..55.08 rows=10 width=32) (actual time=0.033..0.057 rows=14 loops=1)
+   ->  Index Scan using students_surname on students_indexing s  (cost=0.00..8.02 rows=1 width=28) (actual time=0.014..0.015 rows=1 loops=1)
+     ->  Bitmap Heap Scan on exam_results_indexing e  (cost=4.09..46.95 rows=11 width=8) (actual time=0.012..0.034 rows=14 loops=1)
+             ->  Bitmap Index Scan on exam_student_id  (cost=0.00..4.08 rows=11 width=0) (actual time=0.007..0.007 rows=14 loops=1)
+ Planning Time: 0.413 ms
+ Execution Time: 0.099 ms
+
+
+
+
+
+
+
